@@ -46,3 +46,35 @@ Sendwich -> 0
 Total price -> 312,95
 
 
+Client 1
+Type fuel -> 
+Price fuel -> 0
+Buy litr -> 0
+
+
+Cafe
+Hot dog -> 0
+Cafe -> 0
+Coca-Cola -> 0
+Sendwich -> 0
+
+
+Total price -> 0
+
+
+Client 2
+Type fuel -> ДП
+Price fuel -> 48,99
+Buy litr -> 2
+
+
+Cafe
+Hot dog -> 0
+Cafe -> 0
+Coca-Cola -> 0
+Sendwich -> 0
+
+
+Total price -> 0
+
+

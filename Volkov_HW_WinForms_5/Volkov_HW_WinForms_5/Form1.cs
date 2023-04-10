@@ -20,6 +20,7 @@ namespace Volkov_HW_WinForms_5
         MenuItem reset, exit, menu, next;
 
         ContextMenuStrip contextmenu;
+        ToolStripMenuItem menu2, next2;
 
         int i;
 
@@ -67,10 +68,12 @@ namespace Volkov_HW_WinForms_5
             Menu = mymenu;
 
 
-
             contextmenu = new ContextMenuStrip();
-            contextmenu.Items.Add("Next");
-            contextmenu.Items[0].Click += new EventHandler(SaveAndNext);
+            menu2 = new ToolStripMenuItem("Menu");
+            next2 = new ToolStripMenuItem("Next Client");
+            next2.Click += new EventHandler(SaveAndNext);
+            menu2.DropDownItems.Add(next2);
+            contextmenu.Items.Add(menu2);
             contextmenu.Items.Add("Reset");
             contextmenu.Items[1].Click += new EventHandler(Reset);
             contextmenu.Items.Add("Exit");
