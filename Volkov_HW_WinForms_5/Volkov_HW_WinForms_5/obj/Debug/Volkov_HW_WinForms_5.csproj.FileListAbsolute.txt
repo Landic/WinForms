@@ -9,3 +9,7 @@ D:\Projects\WinForms\Volkov_HW_WinForms_5\Volkov_HW_WinForms_5\obj\Debug\Volkov_
 D:\Projects\WinForms\Volkov_HW_WinForms_5\Volkov_HW_WinForms_5\obj\Debug\Volkov_HW_WinForms_5.csproj.CoreCompileInputs.cache
 D:\Projects\WinForms\Volkov_HW_WinForms_5\Volkov_HW_WinForms_5\obj\Debug\Volkov_HW_WinForms_5.exe
 D:\Projects\WinForms\Volkov_HW_WinForms_5\Volkov_HW_WinForms_5\obj\Debug\Volkov_HW_WinForms_5.pdb
+D:\Projects\WinForms\Volkov_HW_WinForms_5\Volkov_HW_WinForms_5\obj\Debug\Volkov_HW_WinForms_5.Form2.resources
+D:\Projects\WinForms\Volkov_HW_WinForms_5\Volkov_HW_WinForms_5\obj\Debug\Volkov_HW_WinForms_5.Form3.resources
+D:\Projects\WinForms\Volkov_HW_WinForms_5\Volkov_HW_WinForms_5\obj\Debug\Volkov_HW_WinForms_5.Form4.resources
+D:\Projects\WinForms\Volkov_HW_WinForms_5\Volkov_HW_WinForms_5\obj\Debug\Volkov_HW_WinForms_5.Form5.resources
