@@ -1,0 +1,11 @@
+D:\Projects\WinForms\Volkov_HW_WinForms_7\Volkov_HW_WinForms_7\bin\Debug\Volkov_HW_WinForms_7.exe.config
+D:\Projects\WinForms\Volkov_HW_WinForms_7\Volkov_HW_WinForms_7\bin\Debug\Volkov_HW_WinForms_7.exe
+D:\Projects\WinForms\Volkov_HW_WinForms_7\Volkov_HW_WinForms_7\bin\Debug\Volkov_HW_WinForms_7.pdb
+D:\Projects\WinForms\Volkov_HW_WinForms_7\Volkov_HW_WinForms_7\obj\Debug\Volkov_HW_WinForms_7.csproj.AssemblyReference.cache
+D:\Projects\WinForms\Volkov_HW_WinForms_7\Volkov_HW_WinForms_7\obj\Debug\Volkov_HW_WinForms_7.csproj.SuggestedBindingRedirects.cache
+D:\Projects\WinForms\Volkov_HW_WinForms_7\Volkov_HW_WinForms_7\obj\Debug\Volkov_HW_WinForms_7.Form1.resources
+D:\Projects\WinForms\Volkov_HW_WinForms_7\Volkov_HW_WinForms_7\obj\Debug\Volkov_HW_WinForms_7.Properties.Resources.resources
+D:\Projects\WinForms\Volkov_HW_WinForms_7\Volkov_HW_WinForms_7\obj\Debug\Volkov_HW_WinForms_7.csproj.GenerateResource.cache
+D:\Projects\WinForms\Volkov_HW_WinForms_7\Volkov_HW_WinForms_7\obj\Debug\Volkov_HW_WinForms_7.csproj.CoreCompileInputs.cache
+D:\Projects\WinForms\Volkov_HW_WinForms_7\Volkov_HW_WinForms_7\obj\Debug\Volkov_HW_WinForms_7.exe
+D:\Projects\WinForms\Volkov_HW_WinForms_7\Volkov_HW_WinForms_7\obj\Debug\Volkov_HW_WinForms_7.pdb
