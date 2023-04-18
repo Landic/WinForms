@@ -1,0 +1,15 @@
+Name -> MonoBank
+Money -> 2000
+Percent -> 2
+Name -> MonoBank
+Money -> 2000
+Percent -> 1
+Name -> MonoBank
+Money -> 2900
+Percent -> 2
+Name -> MonoBank
+Money -> 2000
+Percent -> 2
+Name -> MonoBank
+Money -> 3000
+Percent -> 10

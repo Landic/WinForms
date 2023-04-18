@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33403.182
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Volkov_HW_WinForms_9", "Volkov_HW_WinForms_9\Volkov_HW_WinForms_9.csproj", "{888DFA5B-2D7D-4C7F-A805-424DB092255A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{888DFA5B-2D7D-4C7F-A805-424DB092255A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{888DFA5B-2D7D-4C7F-A805-424DB092255A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{888DFA5B-2D7D-4C7F-A805-424DB092255A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{888DFA5B-2D7D-4C7F-A805-424DB092255A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DB88D0C6-F201-4D52-9836-6976F5B2D426}
+	EndGlobalSection
+EndGlobal

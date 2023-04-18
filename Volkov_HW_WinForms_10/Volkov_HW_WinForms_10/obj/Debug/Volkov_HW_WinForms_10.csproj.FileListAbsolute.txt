@@ -1,0 +1,8 @@
+D:\Projects\WinForms\Volkov_HW_WinForms_10\Volkov_HW_WinForms_10\bin\Debug\Volkov_HW_WinForms_10.exe.config
+D:\Projects\WinForms\Volkov_HW_WinForms_10\Volkov_HW_WinForms_10\bin\Debug\Volkov_HW_WinForms_10.exe
+D:\Projects\WinForms\Volkov_HW_WinForms_10\Volkov_HW_WinForms_10\bin\Debug\Volkov_HW_WinForms_10.pdb
+D:\Projects\WinForms\Volkov_HW_WinForms_10\Volkov_HW_WinForms_10\obj\Debug\Volkov_HW_WinForms_10.csproj.AssemblyReference.cache
+D:\Projects\WinForms\Volkov_HW_WinForms_10\Volkov_HW_WinForms_10\obj\Debug\Volkov_HW_WinForms_10.csproj.SuggestedBindingRedirects.cache
+D:\Projects\WinForms\Volkov_HW_WinForms_10\Volkov_HW_WinForms_10\obj\Debug\Volkov_HW_WinForms_10.csproj.CoreCompileInputs.cache
+D:\Projects\WinForms\Volkov_HW_WinForms_10\Volkov_HW_WinForms_10\obj\Debug\Volkov_HW_WinForms_10.exe
+D:\Projects\WinForms\Volkov_HW_WinForms_10\Volkov_HW_WinForms_10\obj\Debug\Volkov_HW_WinForms_10.pdb
