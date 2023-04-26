@@ -56,6 +56,8 @@
             this.richTextBox1.Size = new System.Drawing.Size(206, 196);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
+            this.richTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.richTextBox1_KeyDown);
+            this.richTextBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.richTextBox1_KeyUp);
             // 
             // button1
             // 
@@ -97,6 +99,7 @@
             this.button5.TabIndex = 3;
             this.button5.Text = "C";
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button6
             // 
@@ -106,6 +109,7 @@
             this.button6.TabIndex = 3;
             this.button6.Text = "Add";
             this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button7
             // 
@@ -140,7 +144,7 @@
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(53, 55);
             this.button10.TabIndex = 4;
-            this.button10.Text = "4\r\nИЙКП\r\nABC";
+            this.button10.Text = "4\r\nИЙКП\r\nGHI";
             this.button10.UseVisualStyleBackColor = true;
             // 
             // button11
