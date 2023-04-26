@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
@@ -21,6 +22,10 @@ namespace Volkov_HW_WinForms_5
 
         string price;
 
+        Thread thread;
+
+        Mutex mutex;
+
         public Form2()
         {
             InitializeComponent();
@@ -28,11 +33,13 @@ namespace Volkov_HW_WinForms_5
             comboBox1.Items.Add("A-95+");
             comboBox1.Items.Add("ДП");
             comboBox1.Items.Add("Газ");
+
+            textBox2.Text = "0";           
             textBox1.Text = "0";
-            textBox2.Text = "0";
             textBox3.Text = "0";
             this.Text = "ОККО";
-            
+            thread = null;
+            mutex = new Mutex(false, "OKKO");
         }
 
         public string GetText
@@ -93,8 +100,6 @@ namespace Volkov_HW_WinForms_5
             {
                 textBox2.Enabled = true;
                 textBox3.Enabled = false;
-
-
             }
             if (radioButton2.Checked)
             {
@@ -105,26 +110,48 @@ namespace Volkov_HW_WinForms_5
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
+            thread = new Thread(Summ);
+            thread.Start();
+            thread.Join();
+        }
+
+        private void Summ()
+        {
             double temp = 0;
             int temp2 = 0;
+            mutex.WaitOne();
             if (textBox2.Enabled && double.TryParse(textBox1.Text, out temp) && int.TryParse(textBox2.Text, out temp2))
             {
+                
                 price = (temp * temp2).ToString();
                 textBox3.Text = price.ToString();
                 label6.Text = textBox3.Text;
+                
             }
+            mutex.ReleaseMutex();
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
+            thread = new Thread(Summ2);
+            thread.Start();
+            thread.Join();
+        }
+
+        private void Summ2()
+        {                
             double temp = 0;
             double temp2 = 0;
+            mutex.WaitOne();
             if (textBox3.Enabled && double.TryParse(textBox1.Text, out temp) && double.TryParse(textBox3.Text, out temp2))
             {
+
                 price = (temp2 / temp).ToString();
                 textBox2.Text = price.ToString();
                 label6.Text = textBox3.Text;
+                
             }
+            mutex.ReleaseMutex();
         }
     }
 }

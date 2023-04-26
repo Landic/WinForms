@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -25,6 +26,10 @@ namespace Volkov_HW_WinForms_5
         Form2 form2;
         Form3 form3;
         Form4 form4;
+
+        Thread thread;
+
+        Mutex mutex;
 
         int i;
 
@@ -86,6 +91,8 @@ namespace Volkov_HW_WinForms_5
             contextmenu.Items[2].Click += new EventHandler(Exit);
             ContextMenuStrip = contextmenu;
 
+            thread = null;
+            mutex = new Mutex(false, "OKKO2");
         }
 
         
@@ -129,17 +136,36 @@ namespace Volkov_HW_WinForms_5
 
         private void button1_Click(object sender, EventArgs e)
         {
+            thread = new Thread(Summ);
+            thread.Start();
+            thread.Join();
+        }
+
+        private void Summ()
+        {           
+            mutex.WaitOne();
             form2 = new Form2();
             form2.ParentForm1 = this;
             DialogResult rez = form2.ShowDialog();
-            if(rez == DialogResult.OK)
+            if (rez == DialogResult.OK)
             {
+
                 temp += Convert.ToDouble(form2.GetText);
-            }
+
+            }       
+            mutex.ReleaseMutex();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            thread = new Thread(Summ2);
+            thread.Start();
+            thread.Join();
+        }
+
+        private void Summ2()
+        {
+            mutex.WaitOne();
             form3 = new Form3();
             form3.ParentForm1 = this;
             DialogResult rez = form3.ShowDialog();
@@ -147,6 +173,7 @@ namespace Volkov_HW_WinForms_5
             {
                 temp += form3.GetCafe;
             }
+            mutex.ReleaseMutex();
         }
 
         private void button3_Click(object sender, EventArgs e)
