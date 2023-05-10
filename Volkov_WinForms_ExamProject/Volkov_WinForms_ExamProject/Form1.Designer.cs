@@ -46,8 +46,10 @@
             this.ывфывфыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel2 = new System.Windows.Forms.Panel();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.panel6 = new System.Windows.Forms.Panel();
+            this.TaskPanel = new System.Windows.Forms.Panel();
             this.directoryEntry1 = new System.DirectoryServices.DirectoryEntry();
+            this.EndTaskPanel = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -55,6 +57,7 @@
             this.panel3.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.EndTaskPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -257,15 +260,38 @@
             this.textBox1.TabIndex = 0;
             this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
             // 
-            // panel6
+            // TaskPanel
             // 
-            this.panel6.AutoScroll = true;
-            this.panel6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel6.Location = new System.Drawing.Point(205, 100);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(395, 297);
-            this.panel6.TabIndex = 3;
+            this.TaskPanel.AutoScroll = true;
+            this.TaskPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
+            this.TaskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TaskPanel.Location = new System.Drawing.Point(205, 100);
+            this.TaskPanel.Name = "TaskPanel";
+            this.TaskPanel.Size = new System.Drawing.Size(395, 297);
+            this.TaskPanel.TabIndex = 3;
+            // 
+            // EndTaskPanel
+            // 
+            this.EndTaskPanel.AutoScroll = true;
+            this.EndTaskPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
+            this.EndTaskPanel.Controls.Add(this.label4);
+            this.EndTaskPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.EndTaskPanel.Location = new System.Drawing.Point(205, 253);
+            this.EndTaskPanel.Name = "EndTaskPanel";
+            this.EndTaskPanel.Size = new System.Drawing.Size(395, 144);
+            this.EndTaskPanel.TabIndex = 3;
+            this.EndTaskPanel.Visible = false;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(3, 9);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(126, 15);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Завершенные задачи:";
             // 
             // Form1
             // 
@@ -274,7 +300,8 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.panel6);
+            this.Controls.Add(this.EndTaskPanel);
+            this.Controls.Add(this.TaskPanel);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
@@ -294,6 +321,8 @@
             this.contextMenuStrip1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.EndTaskPanel.ResumeLayout(false);
+            this.EndTaskPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -313,12 +342,14 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem ывфывфыToolStripMenuItem;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Panel TaskPanel;
         private System.Windows.Forms.TextBox textBox1;
         private System.DirectoryServices.DirectoryEntry directoryEntry1;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Panel EndTaskPanel;
+        private System.Windows.Forms.Label label4;
     }
 }
 
