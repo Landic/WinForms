@@ -28,50 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.ElementPanel = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.panel4 = new System.Windows.Forms.Panel();
+            this.InformationPanel = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.SettingsPanel = new System.Windows.Forms.Panel();
             this.button4 = new System.Windows.Forms.Button();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ывфывфыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.AddPanel = new System.Windows.Forms.Panel();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.TaskPanel = new System.Windows.Forms.Panel();
-            this.directoryEntry1 = new System.DirectoryServices.DirectoryEntry();
             this.EndTaskPanel = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
+            this.TaskPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.ElementPanel.SuspendLayout();
             this.panel5.SuspendLayout();
-            this.panel4.SuspendLayout();
+            this.InformationPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panel3.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.SettingsPanel.SuspendLayout();
+            this.AddPanel.SuspendLayout();
             this.EndTaskPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel1
+            // ElementPanel
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.panel1.Controls.Add(this.panel5);
-            this.panel1.Controls.Add(this.button3);
-            this.panel1.Controls.Add(this.button2);
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(205, 450);
-            this.panel1.TabIndex = 0;
+            this.ElementPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.ElementPanel.Controls.Add(this.panel5);
+            this.ElementPanel.Controls.Add(this.button3);
+            this.ElementPanel.Controls.Add(this.button2);
+            this.ElementPanel.Controls.Add(this.button1);
+            this.ElementPanel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ElementPanel.Location = new System.Drawing.Point(0, 0);
+            this.ElementPanel.Name = "ElementPanel";
+            this.ElementPanel.Size = new System.Drawing.Size(205, 450);
+            this.ElementPanel.TabIndex = 0;
             // 
             // panel5
             // 
@@ -156,17 +151,17 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // panel4
+            // InformationPanel
             // 
-            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
-            this.panel4.Controls.Add(this.pictureBox1);
-            this.panel4.Controls.Add(this.label2);
-            this.panel4.Controls.Add(this.label1);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(205, 0);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(395, 100);
-            this.panel4.TabIndex = 1;
+            this.InformationPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
+            this.InformationPanel.Controls.Add(this.pictureBox1);
+            this.InformationPanel.Controls.Add(this.label2);
+            this.InformationPanel.Controls.Add(this.label1);
+            this.InformationPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.InformationPanel.Location = new System.Drawing.Point(205, 0);
+            this.InformationPanel.Name = "InformationPanel";
+            this.InformationPanel.Size = new System.Drawing.Size(395, 100);
+            this.InformationPanel.TabIndex = 1;
             // 
             // pictureBox1
             // 
@@ -199,17 +194,17 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Мой день";
             // 
-            // panel3
+            // SettingsPanel
             // 
-            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.panel3.Controls.Add(this.button4);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel3.Location = new System.Drawing.Point(600, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.panel3.Size = new System.Drawing.Size(200, 450);
-            this.panel3.TabIndex = 0;
-            this.panel3.Visible = false;
+            this.SettingsPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.SettingsPanel.Controls.Add(this.button4);
+            this.SettingsPanel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.SettingsPanel.Location = new System.Drawing.Point(600, 0);
+            this.SettingsPanel.Name = "SettingsPanel";
+            this.SettingsPanel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.SettingsPanel.Size = new System.Drawing.Size(200, 450);
+            this.SettingsPanel.TabIndex = 0;
+            this.SettingsPanel.Visible = false;
             // 
             // button4
             // 
@@ -224,28 +219,15 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // contextMenuStrip1
+            // AddPanel
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ывфывфыToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(132, 26);
-            // 
-            // ывфывфыToolStripMenuItem
-            // 
-            this.ывфывфыToolStripMenuItem.Name = "ывфывфыToolStripMenuItem";
-            this.ывфывфыToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
-            this.ывфывфыToolStripMenuItem.Text = "ывфывфы";
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
-            this.panel2.Controls.Add(this.textBox1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(205, 397);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(395, 53);
-            this.panel2.TabIndex = 2;
+            this.AddPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
+            this.AddPanel.Controls.Add(this.textBox1);
+            this.AddPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.AddPanel.Location = new System.Drawing.Point(205, 397);
+            this.AddPanel.Name = "AddPanel";
+            this.AddPanel.Size = new System.Drawing.Size(395, 53);
+            this.AddPanel.TabIndex = 2;
             // 
             // textBox1
             // 
@@ -259,16 +241,6 @@
             this.textBox1.Size = new System.Drawing.Size(577, 35);
             this.textBox1.TabIndex = 0;
             this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
-            // 
-            // TaskPanel
-            // 
-            this.TaskPanel.AutoScroll = true;
-            this.TaskPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
-            this.TaskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TaskPanel.Location = new System.Drawing.Point(205, 100);
-            this.TaskPanel.Name = "TaskPanel";
-            this.TaskPanel.Size = new System.Drawing.Size(395, 297);
-            this.TaskPanel.TabIndex = 3;
             // 
             // EndTaskPanel
             // 
@@ -293,6 +265,16 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "Завершенные задачи:";
             // 
+            // TaskPanel
+            // 
+            this.TaskPanel.AutoScroll = true;
+            this.TaskPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
+            this.TaskPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TaskPanel.Location = new System.Drawing.Point(205, 100);
+            this.TaskPanel.Name = "TaskPanel";
+            this.TaskPanel.Size = new System.Drawing.Size(395, 153);
+            this.TaskPanel.TabIndex = 4;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -300,27 +282,26 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.EndTaskPanel);
             this.Controls.Add(this.TaskPanel);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel4);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.EndTaskPanel);
+            this.Controls.Add(this.AddPanel);
+            this.Controls.Add(this.InformationPanel);
+            this.Controls.Add(this.SettingsPanel);
+            this.Controls.Add(this.ElementPanel);
             this.ForeColor = System.Drawing.Color.Black;
             this.MinimumSize = new System.Drawing.Size(816, 489);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
-            this.panel1.ResumeLayout(false);
+            this.ElementPanel.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
+            this.InformationPanel.ResumeLayout(false);
+            this.InformationPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panel3.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.SettingsPanel.ResumeLayout(false);
+            this.AddPanel.ResumeLayout(false);
+            this.AddPanel.PerformLayout();
             this.EndTaskPanel.ResumeLayout(false);
             this.EndTaskPanel.PerformLayout();
             this.ResumeLayout(false);
@@ -329,27 +310,24 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel ElementPanel;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel SettingsPanel;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Panel InformationPanel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem ывфывфыToolStripMenuItem;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel TaskPanel;
+        private System.Windows.Forms.Panel AddPanel;
         private System.Windows.Forms.TextBox textBox1;
-        private System.DirectoryServices.DirectoryEntry directoryEntry1;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Panel EndTaskPanel;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.FlowLayoutPanel TaskPanel;
     }
 }
 
