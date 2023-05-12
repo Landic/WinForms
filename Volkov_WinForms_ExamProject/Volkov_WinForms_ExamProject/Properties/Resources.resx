@@ -118,22 +118,28 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ImportantTask_Ico" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\ImportantTask_Ico.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Close_Ico" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\Close_Ico.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MyDay_Ico" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\MyDay_Ico.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ImportantTask_Ico" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\bin\Debug\ImportantTask_Ico.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Task_Ico" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\Task_Ico.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Close_Ico2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\bin\Debug\Close_Ico2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MyDay_Ico" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\bin\Debug\MyDay_Ico.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="MyDay_Ico1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\MyDay_Ico.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Close_Ico2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\Close_Ico2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Remind_Ico" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\bin\Debug\Remind_Ico.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="76456" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\76456.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

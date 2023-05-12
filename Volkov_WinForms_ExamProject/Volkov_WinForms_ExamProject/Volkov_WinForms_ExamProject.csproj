@@ -86,9 +86,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="bin\Debug\MyDay_Ico.png" />
   </ItemGroup>
@@ -103,6 +101,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\Debug\Close_Ico2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Remind_Ico.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\76456.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

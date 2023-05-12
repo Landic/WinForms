@@ -63,6 +63,16 @@ namespace Volkov_WinForms_ExamProject.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _76456 {
+            get {
+                object obj = ResourceManager.GetObject("76456", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Close_Ico {
             get {
                 object obj = ResourceManager.GetObject("Close_Ico", resourceCulture);
@@ -106,6 +116,16 @@ namespace Volkov_WinForms_ExamProject.Properties {
         internal static System.Drawing.Bitmap MyDay_Ico1 {
             get {
                 object obj = ResourceManager.GetObject("MyDay_Ico1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Remind_Ico {
+            get {
+                object obj = ResourceManager.GetObject("Remind_Ico", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
