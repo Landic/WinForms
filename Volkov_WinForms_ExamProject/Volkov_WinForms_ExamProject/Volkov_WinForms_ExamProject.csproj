@@ -56,7 +56,7 @@
     </Compile>
     <Compile Include="Models\ImportantTasks.cs" />
     <Compile Include="Models\MyDayTask.cs" />
-    <Compile Include="Models\Task.cs" />
+    <Compile Include="Models\MyTask.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -86,7 +86,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="bin\Debug\Dark_Theam_Ico.png" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="bin\Debug\MyDay_Ico.png" />
   </ItemGroup>
@@ -107,6 +109,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\76456.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Light_Theam_Ico.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

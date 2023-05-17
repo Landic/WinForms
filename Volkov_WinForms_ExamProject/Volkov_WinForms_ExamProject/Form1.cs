@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.DirectoryServices;
 using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -18,12 +19,15 @@ namespace Volkov_WinForms_ExamProject
 {
     public partial class Form1 : Form
     {
+        Controller controller;
+
         List<Button> CategoryTask;
 
         List<Panel> MyDayTask; // лист для хранение задач
         List<CheckBox> MyDayTaskCheckEnd;
         List<Panel> MyDayEndTaskPanels;
         List<Button> MyDayButtonImportant;
+        List<Label> MyDayEndDate;
         List<CheckBox> MyDayTaskCheckBack;
         List<Label> MyDayTaskLabelEnd;
         List<Label> MyDayTaskLabel;
@@ -33,6 +37,7 @@ namespace Volkov_WinForms_ExamProject
         List<CheckBox> MyTaskCheckEnd;
         List<Panel> MyTaskEndPanels;
         List<Button> MyTaskButtonImportant;
+        List<Label> MyTaskEndDate;
         List<CheckBox> MyTaskCheckBack;
         List<Label> MyTaskLabelEnd;
         List<Label> MyTaskLabel;
@@ -41,6 +46,7 @@ namespace Volkov_WinForms_ExamProject
         List<Panel> ImportantTask;
         List<CheckBox> ImportantTaskCheckEnd;
         List<Label> ImportantTaskLabel;
+        List<Label> ImportantDateEnd;
         List<Button> ImportantTaskButton;
 
 
@@ -49,9 +55,24 @@ namespace Volkov_WinForms_ExamProject
         List<int> importantornotMyDay;
         List<int> importantornotMyTask;
 
+        int theam;
+
+        int[] rgb;
+        int[] rgb2;
+
+        int[] rgb3;
+        int[] rgb4;
+
         public Form1()
         {
             InitializeComponent();
+            controller = new Controller();
+            theam = 0;
+            rgb3 = new int[3] { 64, 64, 64 };
+            rgb4 = new int[3] { 84, 84, 84 };
+            rgb = new int[3] { 44, 44, 44 };
+            rgb2 = new int[3] { 223, 223, 223 };
+
             index = 0;
             indexcattegory = 0;
             importantornotMyDay = new List<int>();
@@ -61,6 +82,8 @@ namespace Volkov_WinForms_ExamProject
             MyDayTask = new List<Panel>();
             CategoryTask = new List<Button>() { button1, button2, button3 };
             MyDayEndTaskPanels = new List<Panel>();
+            MyTaskEndDate = new List<Label>();
+            MyDayEndDate = new List<Label>();
             MyDayTaskCheckBack = new List<CheckBox>();
             MyDayTaskLabel = new List<Label>();
             MyDayTaskLabelEnd = new List<Label>();
@@ -79,6 +102,7 @@ namespace Volkov_WinForms_ExamProject
             ImportantTask = new List<Panel>();
             ImportantTaskCheckEnd = new List<CheckBox>();
             ImportantTaskLabel = new List<Label>();
+            ImportantDateEnd = new List<Label>();
             ImportantTaskButton = new List<Button>();
 
             button1.BackColor = Color.FromArgb(84, 84, 84);
@@ -95,12 +119,11 @@ namespace Volkov_WinForms_ExamProject
             GraphicsPath path = new GraphicsPath();
             int borderRadius = 5;
             path.AddArc(0, 0, borderRadius, borderRadius, 180, 90);
-            path.AddArc(textBox2.Width - borderRadius - 1, 0, borderRadius, borderRadius, 270, 90);
-            path.AddArc(textBox2.Width - borderRadius - 1, textBox2.Height - borderRadius - 1, borderRadius, borderRadius, 0, 90); // Нижний правый угол
-            path.AddArc(0, textBox2.Height - borderRadius - 1, borderRadius, borderRadius, 90, 90);
+            path.AddArc(TextBoxSearch.Width - borderRadius - 1, 0, borderRadius, borderRadius, 270, 90);
+            path.AddArc(TextBoxSearch.Width - borderRadius - 1, TextBoxSearch.Height - borderRadius - 1, borderRadius, borderRadius, 0, 90); // Нижний правый угол
+            path.AddArc(0, TextBoxSearch.Height - borderRadius - 1, borderRadius, borderRadius, 90, 90);
             path.CloseAllFigures();
-            textBox2.Region = new Region(path);
-            
+            TextBoxSearch.Region = new Region(path);     
         }
 
         private void Circle_Panel() // метод закругление панели
@@ -188,7 +211,108 @@ namespace Volkov_WinForms_ExamProject
             textBox1.Region = new Region(path);
         }
 
+        private void BackSizeMyDay()
+        {
+            Thread updateThread = new Thread(() =>
+            {
+                Invoke(new Action(() =>
+                {
+                    SettingsPanel.Visible = false;
+                    ChangeBoxTask.Clear();
+                    foreach (Panel i in MyDayTask)
+                    {
+                        i.Size = new Size(TaskPanel.Width - 40, 55);
+                        i.Margin = new Padding(17, 0, 0, 5);
+                    }
+                    foreach (Button i in MyDayButtonImportant)
+                    {
+                        i.Location = new Point(MyDayTask[MyDayTask.Count - 1].Width - 40, (MyDayTask[MyDayTask.Count - 1].Height / 2) - 13);
+                    }
+                    if (MyDayEndTaskPanels.Count > 0)
+                    {
+                        foreach (Panel i in MyDayEndTaskPanels)
+                        {
+                            i.Size = new Size(EndTaskPanel.Width - 40, 55);
+                            i.Margin = new Padding(17, 0, 0, 5);
+                        }
+                        foreach (Button i in MyDayButtonImportantEnd)
+                        {
+                            i.Location = new Point(MyDayTask[MyDayTask.Count - 1].Width - 40, (MyDayTask[MyDayTask.Count - 1].Height / 2) - 13);
+                        }
+                    }
+                    textBox1.Size = new Size(AddPanel.Width - 18, AddPanel.Height - 18); // меняется размер текстбокса
+                    UpdateMyDayTask();
+                    Circle_Panel();
+                    Circle_Panel();// метод для закругление панели задач
+                    Circle_TextBox(); // закругляет текстбокс
+                }));
+            });
+            updateThread.Start();
+        }
 
+        private void BackSizeImportantTask()
+        {
+            Thread updateThread = new Thread(() =>
+            {
+                Invoke(new Action(() =>
+                {
+                    SettingsPanel.Visible = false;
+                    ChangeBoxTask.Clear();
+                    foreach (Panel i in ImportantTask)
+                    {
+                        i.Size = new Size(TaskPanel.Width - 40, 55);
+                        i.Margin = new Padding(17, 0, 0, 5);
+                    }
+                    foreach (Button i in ImportantTaskButton)
+                    {
+                        i.Location = new Point(ImportantTask[ImportantTask.Count - 1].Width - 40, (ImportantTask[ImportantTask.Count - 1].Height / 2) - 13);
+                    }
+                    textBox1.Size = new Size(AddPanel.Width - 18, AddPanel.Height - 18); // меняется размер текстбокса
+                    UpdateImportantTask();
+                    Circle_Panel_Important();
+                    Circle_TextBox(); // закругляет текстбокс
+                }));
+            });
+            updateThread.Start();
+        }
+
+        private void BackSizeMyTask()
+        {
+            Thread updateThread = new Thread(() =>
+            {
+                Invoke(new Action(() =>
+                {
+                    SettingsPanel.Visible = false;
+                    ChangeBoxTask.Clear();
+                    foreach (Panel i in MyTask)
+                    {
+                        i.Size = new Size(TaskPanel.Width - 40, 55);
+                        i.Margin = new Padding(17, 0, 0, 5);
+                    }
+                    if (MyTaskEndPanels.Count > 0)
+                    {
+                        foreach (Panel i in MyTaskEndPanels)
+                        {
+                            i.Size = new Size(EndTaskPanel.Width - 40, 55);
+                            i.Margin = new Padding(17, 0, 0, 5);
+                        }
+                        foreach (Button i in MyTaskButtonImportantEnd)
+                        {
+                            i.Location = new Point(MyTaskEndPanels[MyTaskEndPanels.Count - 1].Width - 40, (MyTaskEndPanels[MyTaskEndPanels.Count - 1].Height / 2) - 13);
+                        }
+                    }
+                    foreach (Button i in MyTaskButtonImportant)
+                    {
+                        i.Location = new Point(MyTask[MyTask.Count - 1].Width - 40, (MyTask[MyTask.Count - 1].Height / 2) - 13);
+                    }
+                    textBox1.Size = new Size(AddPanel.Width - 18, AddPanel.Height - 18); // меняется размер текстбокса
+                    UpdateMyTask();
+                    Circle_Panel_MyTask();
+                    Circle_TextBox(); // закругляет текстбокс
+                }));
+            });
+            updateThread.Start();
+        }
 
         private void UpdateMyDayTask()
         {
@@ -348,13 +472,13 @@ namespace Volkov_WinForms_ExamProject
             indexcattegory = CategoryTask.IndexOf(clickbut);
             for (int i = 0; i < CategoryTask.Count; i++)
             {
-                CategoryTask[i].BackColor = Color.FromArgb(64, 64, 64);
+                CategoryTask[i].BackColor = Color.FromArgb(rgb3[0], rgb3[1], rgb3[2]);
             }
             label1.Text = "Мой день";
             label1.ForeColor = Color.FromArgb(188, 122, 188);
             label2.Visible = true;
             pictureBox1.Image = Resources.MyDay_Ico1;
-            button1.BackColor = Color.FromArgb(84, 84, 84);
+            button1.BackColor = Color.FromArgb(rgb4[0], rgb4[1], rgb4[2]);
             UpdateMyDayTask();
             UpdateMyDayTaskEnd();
         }
@@ -365,13 +489,13 @@ namespace Volkov_WinForms_ExamProject
             indexcattegory = CategoryTask.IndexOf(clickbut);
             for (int i = 0; i < CategoryTask.Count; i++)
             {
-                CategoryTask[i].BackColor = Color.FromArgb(64, 64, 64);
+                CategoryTask[i].BackColor = Color.FromArgb(rgb3[0], rgb3[1], rgb3[2]);
             }
             label1.Text = "Важно";
             label1.ForeColor = Color.FromArgb(222,166,177);
             label2.Visible = false;
             pictureBox1.Image = Resources.ImportantTask_Ico;
-            button2.BackColor = Color.FromArgb(84, 84, 84);
+            button2.BackColor = Color.FromArgb(rgb4[0], rgb4[1], rgb4[2]);
             EndTaskPanel.Visible = false;
             UpdateImportantTask();
         }
@@ -382,13 +506,13 @@ namespace Volkov_WinForms_ExamProject
             indexcattegory = CategoryTask.IndexOf(clickbut);
             for (int i = 0; i < CategoryTask.Count; i++)
             {
-                CategoryTask[i].BackColor = Color.FromArgb(64, 64, 64);
+                CategoryTask[i].BackColor = Color.FromArgb(rgb3[0], rgb3[1], rgb3[2]);
             }
             label1.Text = "Задачи";
             label1.ForeColor = Color.FromArgb(120,140,222);
             label2.Visible = false;
             pictureBox1.Image = Resources.Task_Ico;
-            button3.BackColor = Color.FromArgb(84, 84, 84);
+            button3.BackColor = Color.FromArgb(rgb4[0], rgb4[1], rgb4[2]);
             UpdateMyTask();
             UpdateMyTaskEnd();
         }
@@ -403,10 +527,6 @@ namespace Volkov_WinForms_ExamProject
                 {
                     index = MyDayTask.IndexOf(clickedPanel);
                     ChangeBoxTask.Text = MyDayTaskLabel[index].Text;
-                }
-                else if (MyDayEndTaskPanels.Contains(clickedPanel))
-                {
-                    index = MyDayEndTaskPanels.IndexOf(clickedPanel);
                 }
                 // получаем индекс кликнутой панели задач
 
@@ -426,7 +546,34 @@ namespace Volkov_WinForms_ExamProject
                     {
                         MyDayEndTaskPanels[i].Size = new Size(EndTaskPanel.Width - 40, EndTaskPanel.Height - 92);
                     }
+                    foreach (Button i in MyDayButtonImportantEnd)
+                    {
+                        i.Location = new Point(MyDayTask[MyDayTask.Count - 1].Width - 40, (MyDayTask[MyDayTask.Count - 1].Height / 2) - 13);
+                    }
                 }
+            }
+            if(indexcattegory == 1)
+            {
+                Panel clickedPanel = sender as Panel;
+                if (ImportantTask.Contains(clickedPanel))
+                {
+                    index = ImportantTask.IndexOf(clickedPanel);
+                    ChangeBoxTask.Text = ImportantTaskLabel[index].Text;
+                }
+                //получаем индекс кликнутой панели задач
+                foreach (Panel i in ImportantTask)
+                {
+                    i.Size = new Size(TaskPanel.Width - 40, 55);
+                    i.Margin = new Padding(17, 0, 0, 5);
+                }
+                foreach (Button i in ImportantTaskButton)
+                {
+                    i.Location = new Point(ImportantTask[ImportantTask.Count - 1].Width - 40, (ImportantTask[ImportantTask.Count - 1].Height / 2) - 13);
+                }
+                textBox1.Size = new Size(AddPanel.Width - 18, AddPanel.Height - 18); // меняется размер текстбокса
+                Circle_Panel_Important();
+                Circle_Panel();
+                Circle_TextBox(); // закругление текстбокса
             }
             if(indexcattegory == 2)
             {
@@ -436,15 +583,15 @@ namespace Volkov_WinForms_ExamProject
                     index = MyTask.IndexOf(clickedPanel);
                     ChangeBoxTask.Text = MyTaskLabel[index].Text;
                 }
-                else if (MyTaskEndPanels.Contains(clickedPanel))
-                {
-                    index = MyTaskEndPanels.IndexOf(clickedPanel);
-                }
                 //получаем индекс кликнутой панели задач
                 foreach (Panel i in MyTask)
                 {
                     i.Size = new Size(TaskPanel.Width - 40, 55);
                     i.Margin = new Padding(17, 0, 0, 5);
+                }
+                foreach (Button i in MyTaskButtonImportant)
+                {
+                    i.Location = new Point(MyTask[MyTask.Count - 1].Width - 40, (MyTask[MyTask.Count - 1].Height / 2) - 13);
                 }
                 textBox1.Size = new Size(AddPanel.Width - 18, AddPanel.Height - 18); // меняется размер текстбокса
                 if (MyTaskEndPanels.Count > 0)
@@ -452,6 +599,10 @@ namespace Volkov_WinForms_ExamProject
                     for (int i = 0; i < MyTaskEndPanels.Count; i++)
                     {
                         MyTaskEndPanels[i].Size = new Size(EndTaskPanel.Width - 40, EndTaskPanel.Height - 92);
+                    }
+                    foreach (Button i in MyTaskButtonImportantEnd)
+                    {
+                        i.Location = new Point(MyTaskEndPanels[MyTaskEndPanels.Count - 1].Width - 40, (MyTaskEndPanels[MyTaskEndPanels.Count - 1].Height / 2) - 13);
                     }
                 }
             }
@@ -466,7 +617,7 @@ namespace Volkov_WinForms_ExamProject
             Panel panel = sender as Panel;
             if (panel != null)
             {
-                panel.BackColor = Color.FromArgb(66, 66, 66);
+                panel.BackColor = Color.FromArgb(rgb[0] + 20, rgb[1] + 20, rgb[2] + 20);
             }
         }
 
@@ -475,58 +626,27 @@ namespace Volkov_WinForms_ExamProject
             Panel panel = sender as Panel;
             if (panel != null)
             {
-                panel.BackColor = Color.FromArgb(44,44, 44);
+                panel.BackColor = Color.FromArgb(rgb[0], rgb[1], rgb[2]);
                 
             }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if(indexcattegory == 0)
+            SettingsPanel.Visible = false;
+            ChangeBoxTask.Text = string.Empty;
+            if (indexcattegory == 0)
             {
-                SettingsPanel.Visible = false;
-                ChangeBoxTask.Text = string.Empty;
-                foreach (Panel i in MyDayTask)
-                {
-                    i.Size = new Size(TaskPanel.Width - 40, 55);
-                    i.Margin = new Padding(17, 0, 0, 5);
-                }
-                foreach (Button i in MyDayButtonImportant)
-                {
-                    i.Location = new Point(MyDayTask[MyDayTask.Count - 1].Width - 40, (MyDayTask[MyDayTask.Count - 1].Height / 2) - 13);
-                }
-                if (MyDayEndTaskPanels.Count > 0)
-                {
-                    foreach (Panel i in MyDayEndTaskPanels)
-                    {
-                        i.Size = new Size(EndTaskPanel.Width - 40, 55);
-                        i.Margin = new Padding(17, 0, 0, 5);
-                    }
-                }
-                textBox1.Size = new Size(AddPanel.Width - 18, AddPanel.Height - 18); // меняется размер текстбокса
+                BackSizeMyDay();
+            }
+            else if(indexcattegory == 1)
+            {
+                BackSizeImportantTask();
             }
             else if(indexcattegory == 2)
             {
-                SettingsPanel.Visible = false;
-                ChangeBoxTask.Text = string.Empty;
-                foreach (Panel i in MyTask)
-                {
-                    i.Size = new Size(TaskPanel.Width - 40, 55);
-                    i.Margin = new Padding(17, 0, 0, 5);
-                }
-                if (MyTaskEndPanels.Count > 0)
-                {
-                    foreach (Panel i in MyTaskEndPanels)
-                    {
-                        i.Size = new Size(EndTaskPanel.Width - 40, 55);
-                        i.Margin = new Padding(17, 0, 0, 5);
-                    }
-                }
-                textBox1.Size = new Size(AddPanel.Width - 18, AddPanel.Height - 18); // меняется размер текстбокса
+                BackSizeMyTask();
             }
-            Circle_Panel_MyTask();
-            Circle_Panel();// метод для закругление панели задач
-            Circle_TextBox(); // закругляет текстбокс
         }
 
         private void AddImportant_Click(object sender, EventArgs e)
@@ -667,7 +787,7 @@ namespace Volkov_WinForms_ExamProject
                     {
                         MyDayTask.Add(new Panel());
 
-                        MyDayTask[MyDayTask.Count - 1].BackColor = Color.FromArgb(44, 44, 44);
+                        MyDayTask[MyDayTask.Count - 1].BackColor = Color.FromArgb(rgb[0], rgb[1], rgb[2]);
                         MyDayTask[MyDayTask.Count - 1].Size = new Size(TaskPanel.Width - 40, 55);
                         MyDayTask[MyDayTask.Count - 1].Margin = new Padding(17, 0, 0, 5);
                         MyDayTask[MyDayTask.Count - 1].MouseEnter += new EventHandler(panel_MouseEnter);
@@ -680,15 +800,23 @@ namespace Volkov_WinForms_ExamProject
                         MyDayTaskCheckEnd[MyDayTaskCheckEnd.Count - 1].Size = new Size(10, 10);
                         MyDayTaskCheckEnd[MyDayTaskCheckEnd.Count - 1].CheckedChanged += new EventHandler(EndTask_CheckedChanged);
                         MyDayTask[MyDayTask.Count - 1].Controls.Add(MyDayTaskCheckEnd[MyDayTaskCheckEnd.Count - 1]);
-                        MyDayTaskCheckEnd[MyDayTaskCheckEnd.Count - 1].Location = new Point(10, (MyDayTask[MyDayTask.Count - 1].Height / 2) - 5);
+                        MyDayTaskCheckEnd[MyDayTaskCheckEnd.Count - 1].Location = new Point(10, (MyDayTask[MyDayTask.Count - 1].Height / 2) - 8);
 
                         MyDayTaskLabel.Add(new Label());
 
-                        MyDayTaskLabel[MyDayTaskLabel.Count - 1].ForeColor = Color.Gainsboro;
+                        MyDayTaskLabel[MyDayTaskLabel.Count - 1].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
                         MyDayTaskLabel[MyDayTaskLabel.Count - 1].Font = new Font("Times New Roman", 10, FontStyle.Regular);
-                        MyDayTaskLabel[MyDayTaskLabel.Count - 1].Location = new Point(40, (MyDayTask[MyDayTask.Count - 1].Height / 2) - 10);
+                        MyDayTaskLabel[MyDayTaskLabel.Count - 1].Location = new Point(40, (MyDayTask[MyDayTask.Count - 1].Height / 2) - 13);
                         MyDayTaskLabel[MyDayTaskLabel.Count - 1].Text = textBox1.Text;
                         MyDayTask[MyDayTask.Count - 1].Controls.Add(MyDayTaskLabel[MyDayTaskLabel.Count - 1]);
+
+                        MyDayEndDate.Add(new Label());
+
+                        MyDayEndDate[MyDayEndDate.Count - 1].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                        MyDayEndDate[MyDayEndDate.Count - 1].Font = new Font("Times New Roman", 8, FontStyle.Regular);
+                        MyDayEndDate[MyDayEndDate.Count - 1].Location = new Point(40, MyDayTask[MyDayTask.Count - 1].Height - 20);
+                        MyDayEndDate[MyDayEndDate.Count - 1].Text = DateTime.Now.Date.ToString();
+                        MyDayTask[MyDayTask.Count - 1].Controls.Add(MyDayEndDate[MyDayEndDate.Count - 1]);
 
                         MyDayButtonImportant.Add(new Button());
 
@@ -712,6 +840,10 @@ namespace Volkov_WinForms_ExamProject
                         MyTaskCheckEnd.Add(MyDayTaskCheckEnd[MyDayTaskCheckEnd.Count - 1]);
                         MyTaskLabel.Add(MyDayTaskLabel[MyDayTaskLabel.Count - 1]);
                         MyTaskButtonImportant.Add(MyDayButtonImportant[MyDayButtonImportant.Count - 1]);
+                        MyTaskEndDate.Add(MyDayEndDate[MyDayEndDate.Count - 1]);
+
+                        controller.AddMyTask(textBox1.Text, false, false, DateTime.Now);
+                        controller.AddMyDayTask(textBox1.Text, false, false, DateTime.Now);
 
                         Circle_Panel();
                         textBox1.Clear();
@@ -720,7 +852,7 @@ namespace Volkov_WinForms_ExamProject
                     {
                         ImportantTask.Add(new Panel());
 
-                        ImportantTask[ImportantTask.Count - 1].BackColor = Color.FromArgb(44, 44, 44);
+                        ImportantTask[ImportantTask.Count - 1].BackColor = Color.FromArgb(rgb[0], rgb[1], rgb[2]);
                         ImportantTask[ImportantTask.Count - 1].Size = new Size(TaskPanel.Width - 40, 55);
                         ImportantTask[ImportantTask.Count - 1].Margin = new Padding(17, 0, 0, 5);
                         ImportantTask[ImportantTask.Count - 1].MouseEnter += new EventHandler(panel_MouseEnter);
@@ -733,15 +865,23 @@ namespace Volkov_WinForms_ExamProject
                         ImportantTaskCheckEnd[ImportantTaskCheckEnd.Count - 1].Size = new Size(10, 10);
                         ImportantTaskCheckEnd[ImportantTaskCheckEnd.Count - 1].CheckedChanged += new EventHandler(EndTask_CheckedChanged);
                         ImportantTask[ImportantTask.Count - 1].Controls.Add(ImportantTaskCheckEnd[ImportantTaskCheckEnd.Count - 1]);
-                        ImportantTaskCheckEnd[ImportantTaskCheckEnd.Count - 1].Location = new Point(10, (ImportantTask[ImportantTask.Count - 1].Height / 2) - 5);
+                        ImportantTaskCheckEnd[ImportantTaskCheckEnd.Count - 1].Location = new Point(10, (ImportantTask[ImportantTask.Count - 1].Height / 2) - 8);
 
                         ImportantTaskLabel.Add(new Label());
 
-                        ImportantTaskLabel[ImportantTaskLabel.Count - 1].ForeColor = Color.Gainsboro;
+                        ImportantTaskLabel[ImportantTaskLabel.Count - 1].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
                         ImportantTaskLabel[ImportantTaskLabel.Count - 1].Font = new Font("Times New Roman", 10, FontStyle.Regular);
-                        ImportantTaskLabel[ImportantTaskLabel.Count - 1].Location = new Point(40, (ImportantTask[ImportantTask.Count - 1].Height / 2) - 10);
+                        ImportantTaskLabel[ImportantTaskLabel.Count - 1].Location = new Point(40, (ImportantTask[ImportantTask.Count - 1].Height / 2) - 13);
                         ImportantTaskLabel[ImportantTaskLabel.Count - 1].Text = textBox1.Text;
                         ImportantTask[ImportantTask.Count - 1].Controls.Add(ImportantTaskLabel[ImportantTaskLabel.Count - 1]);
+
+                        ImportantDateEnd.Add(new Label());
+
+                        ImportantDateEnd[ImportantDateEnd.Count - 1].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                        ImportantDateEnd[ImportantDateEnd.Count - 1].Font = new Font("Times New Roman", 8, FontStyle.Regular);
+                        ImportantDateEnd[ImportantDateEnd.Count - 1].Location = new Point(40, ImportantTask[ImportantTask.Count - 1].Height - 20);
+                        ImportantDateEnd[ImportantDateEnd.Count - 1].Visible = false;
+                        ImportantTask[ImportantTask.Count - 1].Controls.Add(ImportantDateEnd[ImportantDateEnd.Count - 1]);
 
                         ImportantTaskButton.Add(new Button());
 
@@ -762,7 +902,10 @@ namespace Volkov_WinForms_ExamProject
                         MyTask.Add(ImportantTask[ImportantTask.Count - 1]);
                         MyTaskCheckEnd.Add(ImportantTaskCheckEnd[ImportantTaskCheckEnd.Count - 1]);
                         MyTaskLabel.Add(ImportantTaskLabel[ImportantTaskLabel.Count - 1]);
+                        MyTaskEndDate.Add(ImportantDateEnd[ImportantDateEnd.Count - 1]);
                         MyTaskButtonImportant.Add(ImportantTaskButton[ImportantTaskButton.Count - 1]);
+                        controller.AddImportantTask(textBox1.Text, false, true, DateTime.Now);
+                        controller.AddMyTask(textBox1.Text, false, true, DateTime.Now);
 
                         Circle_Panel_Important();
                         textBox1.Clear();
@@ -771,7 +914,7 @@ namespace Volkov_WinForms_ExamProject
                     {
                         MyTask.Add(new Panel());
 
-                        MyTask[MyTask.Count - 1].BackColor = Color.FromArgb(44, 44, 44);
+                        MyTask[MyTask.Count - 1].BackColor = Color.FromArgb(rgb[0], rgb[1], rgb[2]);
                         MyTask[MyTask.Count - 1].Size = new Size(TaskPanel.Width - 40, 55);
                         MyTask[MyTask.Count - 1].Margin = new Padding(17, 0, 0, 5);
                         MyTask[MyTask.Count - 1].MouseEnter += new EventHandler(panel_MouseEnter);
@@ -784,15 +927,23 @@ namespace Volkov_WinForms_ExamProject
                         MyTaskCheckEnd[MyTaskCheckEnd.Count - 1].Size = new Size(10, 10);
                         MyTaskCheckEnd[MyTaskCheckEnd.Count - 1].CheckedChanged += new EventHandler(EndTask_CheckedChanged);
                         MyTask[MyTask.Count - 1].Controls.Add(MyTaskCheckEnd[MyTaskCheckEnd.Count - 1]);
-                        MyTaskCheckEnd[MyTaskCheckEnd.Count - 1].Location = new Point(10, (MyTask[MyTask.Count - 1].Height / 2) - 5);
+                        MyTaskCheckEnd[MyTaskCheckEnd.Count - 1].Location = new Point(10, (MyTask[MyTask.Count - 1].Height / 2) - 8);
 
                         MyTaskLabel.Add(new Label());
 
-                        MyTaskLabel[MyTaskLabel.Count - 1].ForeColor = Color.Gainsboro;
+                        MyTaskLabel[MyTaskLabel.Count - 1].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
                         MyTaskLabel[MyTaskLabel.Count - 1].Font = new Font("Times New Roman", 10, FontStyle.Regular);
-                        MyTaskLabel[MyTaskLabel.Count - 1].Location = new Point(40, (MyTask[MyTask.Count - 1].Height / 2) - 10);
+                        MyTaskLabel[MyTaskLabel.Count - 1].Location = new Point(40, (MyTask[MyTask.Count - 1].Height / 2) - 13);
                         MyTaskLabel[MyTaskLabel.Count - 1].Text = textBox1.Text;
                         MyTask[MyTask.Count - 1].Controls.Add(MyTaskLabel[MyTaskLabel.Count - 1]);
+
+                        MyTaskEndDate.Add(new Label());
+
+                        MyTaskEndDate[MyTaskEndDate.Count - 1].ForeColor= Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                        MyTaskEndDate[MyTaskEndDate.Count - 1].Font = new Font("Times New Roman", 8, FontStyle.Regular);
+                        MyTaskEndDate[MyTaskEndDate.Count - 1].Location = new Point(40, MyTask[MyTask.Count - 1].Height - 20);
+                        MyTaskEndDate[MyTaskEndDate.Count - 1].Visible = false;
+                        MyTask[MyTask.Count - 1].Controls.Add(MyTaskEndDate[MyTaskEndDate.Count - 1]);
 
                         MyTaskButtonImportant.Add(new Button());
 
@@ -809,6 +960,8 @@ namespace Volkov_WinForms_ExamProject
                         MyTaskButtonImportant[MyTaskButtonImportant.Count - 1].Location = new Point(MyTask[MyTask.Count - 1].Width - 40, (MyTask[MyTask.Count - 1].Height / 2) - 13);
 
                         TaskPanel.Controls.Add(MyTask[MyTask.Count - 1]);
+
+                        controller.AddMyTask(textBox1.Text, false, false, DateTime.Now);
 
                         Circle_Panel_MyTask();
                         textBox1.Clear();
@@ -1027,6 +1180,7 @@ namespace Volkov_WinForms_ExamProject
                         MyTaskCheckBack.Add(MyTaskCheckEnd[indexend]);
                         MyTaskLabelEnd.Add(MyTaskLabel[indexend]);
                         MyTaskButtonImportantEnd.Add(MyTaskButtonImportant[indexend]);
+                        controller.mytask[indexend].Complete = true;
 
                         MyTaskLabel.RemoveAt(indexend);
                         MyTask.RemoveAt(indexend);
@@ -1081,7 +1235,7 @@ namespace Volkov_WinForms_ExamProject
                         MyTaskCheckBack.RemoveAt(indexback);
                         MyTaskLabelEnd.RemoveAt(indexback);
                         MyTaskButtonImportantEnd.RemoveAt(indexback);
-
+                        controller.mytask[indexback].Complete = false;
                         MyTaskLabel[MyTaskLabel.Count - 1].Font = new Font("Times New Roman", 10, FontStyle.Regular);
 
                         UpdateMyTask();
@@ -1093,10 +1247,436 @@ namespace Volkov_WinForms_ExamProject
 
         private void ChangeBoxTask_TextChanged(object sender, EventArgs e)
         {
-            //if(SettingsPanel.Visible == true)
-            //{
-            //    MyDayTaskLabel[index].Text = ChangeBoxTask.Text;
-            //}
+            if (SettingsPanel.Visible == true)
+            {
+                if(indexcattegory == 0)
+                {
+                    MyDayTaskLabel[index].Text = ChangeBoxTask.Text;
+                }
+                else if(indexcattegory == 1)
+                {
+                    ImportantTaskLabel[index].Text = ChangeBoxTask.Text;
+                }
+                else if(indexcattegory == 2)
+                {
+                    MyTaskLabel[index].Text = ChangeBoxTask.Text;
+                }
+            }
+        }
+
+        private void Delete_Click(object sender, EventArgs e)
+        {
+            if(indexcattegory == 0)
+            {
+                for (int i = 0; i < MyTask.Count; i++)
+                {
+                    if (MyTask[i] == MyDayTask[index])
+                    {
+                        MyTask.RemoveAt(i);
+                        MyTaskButtonImportant.RemoveAt(i);
+                        MyTaskCheckEnd.RemoveAt(i);
+                        MyTaskLabel.RemoveAt(i);
+                        importantornotMyTask.RemoveAt(i);
+                        controller.mytask.RemoveAt(i);
+                        break;
+                    }
+                }
+                for (int i = 0; i < ImportantTask.Count; i++)
+                {
+                    if (ImportantTask[i] == MyDayTask[index])
+                    {
+                        ImportantTask.RemoveAt(i);
+                        ImportantTaskCheckEnd.RemoveAt(i);
+                        ImportantTaskButton.RemoveAt(i);
+                        ImportantTaskLabel.RemoveAt(i);
+                        break;
+                    }
+                }
+                MyDayTask.RemoveAt(index);
+                MyDayTaskCheckEnd.RemoveAt(index);
+                MyDayTaskLabel.RemoveAt(index);
+                MyDayButtonImportant.RemoveAt(index);
+                importantornotMyDay.RemoveAt(index);
+                BackSizeMyDay();
+            }
+            else if(indexcattegory == 1)
+            {
+                for (int i = 0; i < MyTask.Count; i++)
+                {
+                    if (MyTask[i] == ImportantTask[index])
+                    {
+                        MyTask.RemoveAt(i);
+                        MyTaskButtonImportant.RemoveAt(i);
+                        MyTaskCheckEnd.RemoveAt(i);
+                        MyTaskLabel.RemoveAt(i);
+                        controller.mytask.RemoveAt(i);
+                        importantornotMyTask.RemoveAt(i);
+                        break;
+                    }
+                }
+                for(int i = 0; i < MyDayTask.Count; i++)
+                {
+                    if (MyDayTask[i] == ImportantTask[index])
+                    {
+                        MyDayTask.RemoveAt(i);
+                        MyDayButtonImportant.RemoveAt(i);
+                        MyDayTaskCheckEnd.RemoveAt(i);
+                        MyDayTaskLabel.RemoveAt(i);
+                        importantornotMyDay.RemoveAt(i);
+                        break;
+                    }
+                }
+                ImportantTask.RemoveAt(index);
+                ImportantTaskCheckEnd.RemoveAt(index);
+                ImportantTaskButton.RemoveAt(index);
+                ImportantTaskLabel.RemoveAt(index);
+                BackSizeImportantTask();
+            }
+            else if(indexcattegory == 2)
+            {
+                for (int i = 0; i < MyDayTask.Count; i++)
+                {
+                    if (MyDayTask[i] == MyTask[index])
+                    {
+                        MyDayTask.RemoveAt(i);
+                        MyDayButtonImportant.RemoveAt(i);
+                        MyDayTaskCheckEnd.RemoveAt(i);
+                        MyDayTaskLabel.RemoveAt(i);
+                        importantornotMyDay.RemoveAt(i);
+                        break;
+                    }
+                }
+                for (int i = 0; i < ImportantTask.Count; i++)
+                {
+                    if (ImportantTask[i] == MyTask[index])
+                    {
+                        ImportantTask.RemoveAt(i);
+                        ImportantTaskCheckEnd.RemoveAt(i);
+                        ImportantTaskButton.RemoveAt(i);
+                        ImportantTaskLabel.RemoveAt(i);
+                        break;
+                    }
+                }
+                MyTask.RemoveAt(index);
+                MyTaskCheckEnd.RemoveAt(index);
+                MyTaskLabel.RemoveAt(index);
+                MyTaskButtonImportant.RemoveAt(index);
+                importantornotMyTask.RemoveAt(index);
+                controller.mytask.RemoveAt(index);
+                BackSizeMyTask();
+            }
+        }
+
+        private void SetDataButton_Click(object sender, EventArgs e)
+        {
+            PanelData.Visible = true;
+        }
+
+        private void SaveButData_Click(object sender, EventArgs e)
+        {
+            if (indexcattegory == 0)
+            {
+                if(monthCalendar1.SelectionStart < DateTime.Now.Date)
+                {
+                    MessageBox.Show("Ошибка!", "To Do");
+                }
+                else
+                {
+                    DateTime selectedDate = monthCalendar1.SelectionStart;
+                    MyDayEndDate[index].Visible = true;
+                    MyDayEndDate[index].Text = selectedDate.ToString();
+                    PanelData.Visible = false;
+                }
+            }
+            else if(indexcattegory == 1)
+            {
+                if (monthCalendar1.SelectionStart < DateTime.Now.Date)
+                {
+                    MessageBox.Show("Ошибка!", "To Do");
+                }
+                else
+                {
+                    DateTime selectedDate = monthCalendar1.SelectionStart;
+                    ImportantDateEnd[index].Visible = true;
+                    ImportantDateEnd[index].Text = selectedDate.ToString();
+                    PanelData.Visible = false;
+                }
+            }
+            else if (indexcattegory == 2)
+            {
+                if (monthCalendar1.SelectionStart < DateTime.Now.Date)
+                {
+                    MessageBox.Show("Ошибка!", "To Do");
+                }
+                else
+                {
+                    DateTime selectedDate = monthCalendar1.SelectionStart;
+                    MyTaskEndDate[index].Visible = true;
+                    MyTaskEndDate[index].Text = selectedDate.ToString();
+                    PanelData.Visible = false;
+                }
+            }
+        }
+
+        private void CancelButData_Click(object sender, EventArgs e)
+        {
+            if(indexcattegory == 0)
+            {
+                PanelData.Visible = false;
+            }
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+
+        }
+
+        private void textBox2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                if(indexcattegory == 0)
+                {
+                    string nametask = TextBoxSearch.Text;
+                    if (string.IsNullOrEmpty(nametask))
+                    {
+                        UpdateMyTask();
+                        UpdateMyTaskEnd();
+                    }
+                    else
+                    {
+                        TaskPanel.Controls.Clear();
+                        EndTaskPanel.Controls.Clear();
+                        for (int i = 0; i < MyDayTask.Count; i++)
+                        {
+                            if (MyDayTaskLabel[i].Text.Contains(nametask))
+                            {
+                                TaskPanel.Controls.Add(MyDayTask[i]);
+                            }
+                        }
+                        for (int i = 0; i < MyDayEndTaskPanels.Count; i++)
+                        {
+                            if (MyDayTaskLabelEnd[i].Text.Contains(nametask))
+                            {
+                                TaskPanel.Controls.Add(MyDayEndTaskPanels[i]);
+                            }
+                        }
+                    }
+                }
+                if(indexcattegory == 1)
+                {
+                    string nametask = TextBoxSearch.Text;
+                    if (string.IsNullOrEmpty(nametask))
+                    {
+                        UpdateMyTask();
+                        UpdateMyTaskEnd();
+                    }
+                    else
+                    {
+                        TaskPanel.Controls.Clear();
+                        EndTaskPanel.Controls.Clear();
+                        for (int i = 0; i < ImportantTask.Count; i++)
+                        {
+                            if (ImportantTaskLabel[i].Text.Contains(nametask))
+                            {
+                                TaskPanel.Controls.Add(ImportantTask[i]);
+                            }
+                        }
+                    }
+                }
+                if(indexcattegory == 2)
+                {
+                    string nametask = TextBoxSearch.Text;
+                    if (string.IsNullOrEmpty(nametask))
+                    {
+                        UpdateMyTask();
+                        UpdateMyTaskEnd();
+                    }
+                    else
+                    {
+                        TaskPanel.Controls.Clear();
+                        EndTaskPanel.Controls.Clear();
+                        for (int i = 0; i < MyTask.Count; i++)
+                        {
+                            if (MyTaskLabel[i].Text.Contains(nametask))
+                            {
+                                TaskPanel.Controls.Add(MyTask[i]);
+                            }
+                        }
+                        for (int i = 0; i < MyTaskEndPanels.Count; i++)
+                        {
+                            if (MyTaskLabelEnd[i].Text.Contains(nametask))
+                            {
+                                EndTaskPanel.Controls.Add(MyTaskEndPanels[i]);
+                            }
+                        }
+                    }
+                }
+                TextBoxSearch.Clear();
+            }
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.Show();
+            notifyIcon1.Visible = false;
+            WindowState = FormWindowState.Normal;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            notifyIcon1.BalloonTipTitle = "To Do";
+            notifyIcon1.BalloonTipText = "Приложение свернуто";
+            notifyIcon1.Text = "To Do";
+        }
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            if(WindowState == FormWindowState.Minimized)
+            {
+                this.Hide();
+                notifyIcon1.Visible = true;
+                notifyIcon1.ShowBalloonTip(1000);
+            }
+            else if(FormWindowState.Normal == this.WindowState)
+            {
+                notifyIcon1.Visible=false;
+            }
+        }
+
+        private void CloseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if(theam == 0)
+            {
+                button5.BackgroundImage = Image.FromFile("Light_Theam_Ico.png");
+                rgb = new int[3]{ 235, 235, 235 };
+                rgb2 = new int[3] { 110, 110, 110 };
+                TaskPanel.BackColor = Color.FromArgb(179, 179, 179);
+                EndTaskPanel.BackColor = Color.FromArgb(179, 179, 179);
+                AddPanel.BackColor = Color.FromArgb(179, 179, 179);
+                textBox1.BackColor = Color.FromArgb(235, 235, 235);
+                textBox1.ForeColor = Color.FromArgb(110, 110, 110);
+                InformationPanel.BackColor = Color.FromArgb(179, 179, 179);
+                ElementPanel.BackColor = Color.FromArgb(199, 199, 199);
+                panel5.BackColor = Color.FromArgb(199, 199, 199);
+                SettingsPanel.BackColor = Color.FromArgb(199, 199, 199);
+                label3.ForeColor = Color.FromArgb(110, 110, 110);
+                TextBoxSearch.BackColor = Color.FromArgb(179, 179, 179);
+                TextBoxSearch.ForeColor = Color.FromArgb(110, 110, 110);
+                foreach(Button i in CategoryTask)
+                {
+                    i.BackColor = Color.FromArgb(199, 199, 199);
+                    i.ForeColor = Color.FromArgb(110, 110, 110);
+                }
+                rgb3 = new int[3] { 199, 199, 199 };
+                rgb4 = new int[3] { 159, 159, 159 };
+                ChangeBoxTask.BackColor = Color.FromArgb(179, 179, 179);
+                ChangeBoxTask.ForeColor = Color.FromArgb(110, 110, 110);
+                SetDataButton.BackColor = Color.FromArgb(179, 179, 179);
+                SetDataButton.ForeColor = Color.FromArgb(110,110,110);
+                Delete.BackColor = Color.FromArgb(179, 179, 179);
+                Delete.ForeColor= Color.FromArgb(110, 110, 110);
+                panel1.BackColor = Color.FromArgb(179, 179, 179);
+                for (int i = 0; i < MyDayTask.Count; i++)
+                {
+                    MyDayTask[i].BackColor = Color.FromArgb(rgb[0], rgb[1], rgb[2]);
+                    MyDayEndDate[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                    MyDayTaskLabel[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                }
+                for (int i = 0; i < MyTask.Count; i++)
+                {
+                    MyTask[i].BackColor = Color.FromArgb(rgb[0], rgb[1], rgb[2]);
+                    MyTaskEndDate[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                    MyTaskLabel[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                }
+                for (int i = 0; i < ImportantTask.Count; i++)
+                {
+                    ImportantTask[i].BackColor = Color.FromArgb(rgb[0], rgb[1], rgb[2]);
+                    ImportantDateEnd[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                    ImportantTaskLabel[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                }
+                for (int i = 0; i < MyDayEndTaskPanels.Count; i++)
+                {
+                    MyDayEndTaskPanels[i].BackColor = Color.FromArgb(rgb[0], rgb[1], rgb[2]);
+                    MyDayEndDate[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                    MyDayTaskLabelEnd[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                }
+                for (int i = 0; i < MyTaskEndPanels.Count; i++)
+                {
+                    MyTaskEndPanels[i].BackColor = Color.FromArgb(rgb[0], rgb[1], rgb[2]);
+                    MyTaskEndDate[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                    MyTaskLabelEnd[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                }
+                theam = 1;
+            }
+            else if(theam == 1)
+            {
+                button5.BackgroundImage = Image.FromFile("Dark_Theam_Ico.png");
+                rgb = new int[3] { 64, 64, 64 };
+                rgb2 = new int[3] { 223, 223, 223 };
+                TaskPanel.BackColor = Color.FromArgb(33, 33, 33);
+                EndTaskPanel.BackColor = Color.FromArgb(33, 33, 33);
+                AddPanel.BackColor = Color.FromArgb(33, 33, 33);
+                textBox1.BackColor = Color.FromArgb(44, 44, 44);
+                textBox1.ForeColor = Color.FromArgb(223, 223, 223);
+                InformationPanel.BackColor = Color.FromArgb(33, 33, 33);
+                ElementPanel.BackColor = Color.FromArgb(64, 64, 64);
+                panel5.BackColor = Color.FromArgb(64, 64, 64);
+                SettingsPanel.BackColor = Color.FromArgb(64, 64, 64);
+                label3.ForeColor = Color.FromArgb(223, 223, 223);
+                TextBoxSearch.BackColor = Color.FromArgb(44, 44, 44);
+                TextBoxSearch.ForeColor = Color.FromArgb(223, 223, 223);
+                foreach (Button i in CategoryTask)
+                {
+                    i.BackColor = Color.FromArgb(64, 64, 64);
+                    i.ForeColor = Color.FromArgb(223, 223, 223);
+                }
+                rgb3 = new int[3] { 64, 64, 64 };
+                rgb4 = new int[3] { 94,94, 94 };
+                ChangeBoxTask.BackColor = Color.FromArgb(84,84, 84);
+                ChangeBoxTask.ForeColor = Color.FromArgb(223, 223, 223);
+                SetDataButton.BackColor = Color.FromArgb(84, 84, 84);
+                SetDataButton.ForeColor = Color.FromArgb(223, 223, 223);
+                Delete.BackColor = Color.FromArgb(84, 84, 84);
+                Delete.ForeColor = Color.FromArgb(223, 223, 223);
+                panel1.BackColor = Color.FromArgb(84, 84, 84);
+                for(int i = 0; i < MyDayTask.Count; i++)
+                {
+                    MyDayTask[i].BackColor = Color.FromArgb(rgb[0], rgb[1], rgb[2]);
+                    MyDayEndDate[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                    MyDayTaskLabel[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                }
+                for (int i = 0; i < MyTask.Count; i++)
+                {
+                    MyTask[i].BackColor = Color.FromArgb(rgb[0], rgb[1], rgb[2]);
+                    MyTaskEndDate[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                    MyTaskLabel[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                }
+                for (int i = 0; i < ImportantTask.Count; i++)
+                {
+                    ImportantTask[i].BackColor = Color.FromArgb(rgb[0], rgb[1], rgb[2]);
+                    ImportantDateEnd[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                    ImportantTaskLabel[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                }
+                for (int i = 0; i < MyDayEndTaskPanels.Count; i++)
+                {
+                    MyDayEndTaskPanels[i].BackColor = Color.FromArgb(rgb[0], rgb[1], rgb[2]);
+                    MyDayEndDate[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                    MyDayTaskLabelEnd[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                }
+                for (int i = 0; i < MyTaskEndPanels.Count; i++)
+                {
+                    MyTaskEndPanels[i].BackColor = Color.FromArgb(rgb[0], rgb[1], rgb[2]);
+                    MyTaskEndDate[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                    MyTaskLabelEnd[i].ForeColor = Color.FromArgb(rgb2[0], rgb2[1], rgb2[2]);
+                }
+                theam = 0;
+            }
         }
     }
 }

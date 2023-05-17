@@ -93,9 +93,29 @@ namespace Volkov_WinForms_ExamProject.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Dark_Theam_Ico {
+            get {
+                object obj = ResourceManager.GetObject("Dark_Theam_Ico", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ImportantTask_Ico {
             get {
                 object obj = ResourceManager.GetObject("ImportantTask_Ico", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Light_Theam_Ico {
+            get {
+                object obj = ResourceManager.GetObject("Light_Theam_Ico", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
